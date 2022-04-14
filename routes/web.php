@@ -11,6 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Auth::routes();
+//TOP
+Route::get('/','RecipeController@index')->name('top');
+
+Route::resource('recipes','RecipeController');
+
+Route::resource('likes','LikeController')->only([
+    'index','store','destroy'    
+]);
+//プロフィール関連
+Route::get('/profile/edit','UserController@edit')->name('profile.edit');
+Route::patch('/profile','UserController@update')->name('profile.update');
+
+Route::get('/users/{user}','UserController@show')->name('user.show');

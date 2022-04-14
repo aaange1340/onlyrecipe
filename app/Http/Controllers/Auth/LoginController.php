@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
+use Illuminate\Http\Request;
+
 class LoginController extends Controller
 {
     /*
@@ -20,13 +22,33 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
+    
+    
+    public function username()
+    {
+        return 'name';   
+    }
+    
+    protected function credentials(Request $request)
+    {
+        $username = $request->input($this->username());
+        $password = $request->input('password');
+        //usernameがemail形式か判定
+        if(filter_var($username,FILTER_VALIDATE_EMAIL)){
+            //email形式の場合、key=emailに値を渡す
+            return ['email' => $username,'password' =>$password];
+        }else{
+            //email形式でない場合key=nameに値を渡す
+            return[$this->username() => $username,'password' => $password];
+        }
+    }
 
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -37,4 +59,11 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    
+    protected function loggedOut(Request $request)
+    {
+        return redirect(route('login'));
+    }
+     
+
 }
