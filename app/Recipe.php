@@ -19,4 +19,9 @@ class Recipe extends Model
     {
       return $this->belongsTo('App\Category');
     }
+    
+    public function materials()
+    {
+      return $this->hasMany('App\Material');
+    }
 }

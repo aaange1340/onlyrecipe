@@ -9,15 +9,15 @@
 <form method="POST" action="{{ route('recipes.update',$recipe) }}" enctype="multipart/form-data">
     @csrf
     @method('PATCH')
-<div>
+<div class="form-group">
     <label>
         レシピ名：
         <br>
-        <input type="name" name="name" value="{{ old('name',$recipe->name) }}">
+        <input class="form-control" type="name" name="name" value="{{ old('name',$recipe->name) }}">
     </label>
 </div>
 
-<div>
+<div class="form-group">
     <label>
         材料：
         <br>
@@ -25,11 +25,11 @@
     </label>
 </div>
 
-<div>
+<div class="form-group">
 <label>
     カテゴリー：
     <br>
-    <select name="category_id">
+    <select name="category_id" class="form-control">
         @foreach($categories as $category)
         <option value="{{ $category->id }}">{{ $category->name }}</option>
         @endforeach
@@ -37,7 +37,7 @@
 </label>
 </div>
 
-<div>
+<div class="form-group">
 <label>
     画像：
     @if($recipe->image !== '')
@@ -49,7 +49,7 @@
 </label>
 </div>
 
-<div>
+<div class="form-group">
     <input class="button" type="submit" value="更新">
 </div>
 
