@@ -7,23 +7,26 @@
 <form method="POST" action="{{ route('recipes.store') }}" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="user_id" value="{{ $user->id??'' }}">
-    <div>
+    <div class="form-group">
         <label>
             レシピ名：
-        <input type="text" name="name">
+        <input class="form-control" type="text" name="name">
         </label>
     </div>
     
-    <div>
-        <label>
-            説明：
+    <div class="form-group">
+        <label>材料
+            <input class="form-control" type="hidden" name="recipe_id" value="">
+            <input class="form-control" type="name" name="name">
+            <input class="form-control" type="text" name="amount">
+            <input class="form-control" type="text" name="unit">
         </label>
     </div>
     
-    <div>
+    <div class="form-group">
         <label>
             カテゴリー：
-            <select name="category_id">
+            <select class="form-control" name="category_id">
                 
                 @foreach($categories as $category)
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -32,7 +35,7 @@
         </label>
     </div>
     
-    <div>
+    <div class="form-group">
         <label>
             画像を選択：
             <input type="file" name="image">

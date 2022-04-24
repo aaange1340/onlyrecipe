@@ -6,7 +6,7 @@
 
 <h1>{{ $title }}</h1>
 
-<form method="POST" action="{{ route('profile.update') }}">
+<form method="POST" action="{{ route('profile.update',$user) }}" enctype="multipart/form-data">
     @csrf
     @method('PATCH')
     
