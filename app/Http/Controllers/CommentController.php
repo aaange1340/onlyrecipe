@@ -22,7 +22,7 @@ class CommentController extends Controller
         $user = \Auth::user();
         $recipe = Recipe::find($id);
         return view('comments.create',[
-           'title' => 'コメント投稿',
+           'title' => '質問投稿',
            'user' => $user,
            'recipe' => $recipe,
             

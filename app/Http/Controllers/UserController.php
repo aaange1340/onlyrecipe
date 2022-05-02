@@ -70,7 +70,7 @@ class UserController extends Controller
         return view('user.show',[
            'title' => 'プロフィール',
            'user' => $user,
-           'recipes' => $user->recipes()->latest()->get(),
+           'recipes' => $user->recipes()->latest()->paginate(3),
            'data' => $data,
         ]);
         

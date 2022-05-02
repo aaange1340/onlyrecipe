@@ -28,9 +28,12 @@ Route::get('/users/{user}','UserController@show')->name('user.show');
 
 //フォロー関連
 Route::resource('follows','FollowController')->only([
-    'index','store','destroy'
+    'index','store','destroy','show'
 ]);
-Route::get('/follower','FollowController@followerIndex');
+Route::get('/followers/{followers}','FollowController@followerShow')->name('followers.followerShow');
+
+
+Route::get('/follower','FollowController@followerIndex')->name('followers.index');
 
 //いいね関連
 Route::patch('/recipes/{recipe}/toggle_like','RecipeController@toggleLike')->name('recipes.toggle_like');
@@ -40,3 +43,7 @@ Route::resource('comments','CommentController')->only([
     'store','destroy'
 ]);
 Route::get('/comments/{recipe}','CommentController@create')->name('comments.create');
+
+Route::get('/recommend','RecommendController@index')->name('recommend_user.index');
+
+Route::get('/category/{category}','CategoryController@index')->name('category.index');

@@ -1,10 +1,10 @@
-@extends('layouts.logged_in')
+@extends('layouts.1column')
 
 @section('title',$title)
 
-@section('content')
+@section('main_content')
 
-<h1>{{ $title }}</h1>
+<div class="title_wrapper"><h1>{{ $title }}</h1></div>
 
 <ul class="flex">
 <div class="container">

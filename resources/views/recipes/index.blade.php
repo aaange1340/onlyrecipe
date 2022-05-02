@@ -1,35 +1,31 @@
-@extends('layouts.logged_in')
+@extends('layouts.2column')
 
 @section('title',$title)
 
-@section('content')
 
-
+<div class="top_view" style='background-image:url({{ asset('images/dish.jpg') }})'>
+    <div class="top_content">
+        
+    <p class="top_title">口福から始まる幸福を</p>
+    <p>レシピを通して世界中で繋がれる<span class="page_title">「ONLY RECIPE」</span></p>
+    </div>
+</div>
 
 <div class="title_wrapper">
 <h1>{{ $title }}</h1>
-
-<h2>おすすめユーザー</h2>
-<ul class="recommended_users">
-    @forelse($recommended_users as $recommend_user)
-    <li><a href="{{ route('user.show',$recommend_user) }}">{{ $recommend_user->name }}</a></li>
-    @empty
-    <li>おすすめユーザーはいません</li>
-    @endforelse
-</ul>
-
+<div>
 <a href="{{ route('recipes.create') }}"><i class="fa-solid fa-feather-pointed fa-3x"></i>レシピ追加</a>
     
 </div>
+    
+</div>
 
-<div class="container">
-    <div class="row">
-        
-<div class="recipe_wrapper col-9">
 
-<article class="article">
+@section('main_content')
     
 @forelse($recipes as $recipe)
+        <div class="recipe_container">
+            
             <div class="recipe_flex">
                 <figure>
                     @if($recipe->image !== '')
@@ -45,12 +41,16 @@
                 
                 <div class="article_info">
                     <div class="recipe_title">
-                            {{ $recipe->name }}By{{ $recipe->user->name }}
+                            {{ $recipe->name }}By<a href="{{ route('user.show',$recipe->user->id) }}">{{ $recipe->user->name }}</a>
                     </div>
                         <span class="article_category">{{ $recipe->category->name }}</span>
                             <time class="article_date">{{ $data }}</time>
-                            <p>材料<br>材料材料</p>
-                            <a class="like_button">{{ $recipe->isLikedBy(Auth::user()) ? 'いいね解除':'いいね' }} 
+                            <ul class="material_list">
+                            @foreach($recipe->materials as $material)
+                            <li>{{ $material->name }}{{ $material->amount }}{{ $material->unit }}</li>
+                            @endforeach
+                            </ul>
+                            <a class="like_button">{!! $recipe->isLikedBy(Auth::user()) ? '<i class="fa-brands fa-gratipay"></i>':'<i class="fa-solid fa-thumbs-up"></i>' !!} 
                             </a>
                             <form method="post" action="{{ route('recipes.toggle_like',$recipe) }}" class="like">
                              @csrf
@@ -64,28 +64,50 @@
                 
             </div>
     
+        </div>
     
     
 @empty
 <p>レシピがありません。</p>
+
 @endforelse
-</article>
+@endsection
 
-</div>
 
-<aside class="aside col-3">
+@section('sidebar')
+
+
+    <div class="search">
+        <form class="form-group" method="GET">
+            @csrf
+            <input class="form-control" type="search" placeholder="キーワード" name="search" value="@if(isset($search)) {{ $search }} @endif">
+            <input class="button" type="submit" value="検索">
+        </form>
+    </div>
+    
     <div class="widget">
         <span class="widget_title">CATEGORY</span>
         <ul>
             @foreach($categories as $category)
-            <li><a href="">{{ $category->name }}</a><span>{{ $category->recipes->count() }}</span></li>
+            <li><a href="{{ route('category.index',$category) }}">{{ $category->name }}</a><span>{{ $category->recipes->count() }}</span></li>
             @endforeach
+        </ul>
+    </div>
+    
+    <div class="widget">
+        <span class="widget_title">RANKING</span>        
+        <ul>
+            
+            <li></li>
+            
         </ul>
     </div>
 </aside>
 
 
-    </div>
+</div>
+
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -94,4 +116,45 @@
       $(event.currentTarget).next().submit();
   })
 </script>
+@endsection
+
+@section('footer')
+<footer class="footer">
+
+<div class="footer-wrapper">
+
+    <div class="footer-left">
+        <div class="footer-icon">
+            <a href="">
+                <i class="fab fa-twitter fa-2x"></i>
+            </a>
+            <a href="">
+                <i class="fab fa-facebook-square fa-2x"></i>
+            </a>
+        </div>
+
+        <div class="footer-info">
+            <p>サイトマップ</p>
+            <p>個人情報保護方針</p>
+            <p>プライバシーポリシー</p>
+        </div>
+    </div>
+
+
+
+    <div class="footer-right">
+<h3 class="footer-title">ONLY RECIPE
+    <span class="footer-subtitle">&copy; Kazuyuki　Hashimoto page Sample.</span>
+</h3>
+
+    </div>
+
+
+    <div class="page-top">
+        <a href="#top" class="to-top"><img src="../images/totop.png" alt="ページのトップへ移動"></a>
+    </div>
+</div>
+
+
+</footer>
 @endsection

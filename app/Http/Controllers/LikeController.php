@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Follow;
+use App\User;
+use Carbon\Carbon;
 
 class LikeController extends Controller
 {
@@ -15,11 +17,15 @@ class LikeController extends Controller
     
     public function index(){
         $user = \Auth::user();
-        $like_recipes = \Auth::user()->likeRecipes;
+        $recipes = \Auth::user()->likeRecipes;
+        foreach($recipes as $recipe){
+            $data = Carbon::createFromFormat('Y-m-d H:i:s',$recipe->created_at)->format('Y年m月d日');
+        }
         return view('likes.index',[
             'user' => $user,
             'title' => 'お気に入りレシピ',   
-            'like_recipes' => $like_recipes, 
+            'recipes' => $recipes, 
+            'data' => $data,
         ]);
     }
         

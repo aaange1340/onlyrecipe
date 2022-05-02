@@ -18,6 +18,8 @@ use App\User;
 
 use App\Like;
 
+use App\Material;
+
 class RecipeController extends Controller
 {
     public function __construct()
@@ -25,14 +27,8 @@ class RecipeController extends Controller
         $this->middleware('auth');
     }
    
-    public function count_Category(){
-        $category_count = DB::table('recipes')
-                        ->select(DB::raw('category_id,count(*) as category_count'))
-                        ->groupBy('category_id')
-                        ->get();
-        
-    }
-    public function index()
+ 
+    public function index(Request $request)
     {
         $user = \Auth::user();
         $recipes = Recipe::query()->whereIn('user_id',\Auth::user()->follows()->pluck('follow_id'))->orWhere('user_id',\Auth::user()->id)->latest()->get();
@@ -40,21 +36,21 @@ class RecipeController extends Controller
             $data = Carbon::createFromFormat('Y-m-d H:i:s',$recipe->created_at)->format('Y年m月d日');
         }
         $categories = Category::all();
-        // $category_count = DB::table('recipes')
-        //                 ->select(DB::raw('category_id,count(*) as category_count,recipes.name as recipe_name,categories.name as category_name'))
-        //                 ->join('categories','recipes.category_id','=','categories.id')
-        //                 ->groupBy('category_id','recipes.name','categories.name')
-        //                 ->get();
-        // $categories = Category::withCount('recipes')->take(5)->get();
+        $query = Recipe::query();
+        $search = $request->input('search');
+        if($request->input('search')!== null && $request->input('search') !== ''){
+            $query->where('name','like','%'.$search.'%')->where('user_id','!=',\Auth::user()->id);
+            $recipes = $query->get();
+        }
+        
 
         return view('recipes.index',[
            'title' => 'レシピ一覧', 
            'user' => $user,
            'recipes' => $recipes,
-           'recommended_users' => User::recommend($user->id)->get(),
            'data' => $data,
            'categories' => $categories,
-        //   'category_count'=> $category_count
+           'search' => $search,
         ]);
     }
 
@@ -92,13 +88,12 @@ class RecipeController extends Controller
             [
                 'user_id' => auth()->id(),
                 'name' => $request->name,
-                'description' => $request->description,
                 'category_id' => $request->category_id,
                 'image' => $path,
             ]);
-         $material = Material::createMany([
+         $recipe->materials()->createMany([
            [
-               'name' => $request->name,
+               'name' => $request->material_name,
                'recipe_id' => $recipe->id,
                'amount' => $request->amount,
                'unit' => $request->unit,
@@ -112,22 +107,7 @@ class RecipeController extends Controller
         return redirect()->route('recipes.index');
     }
     
-    public function materials_create(Request $request,$id)
-    {
-        $recipe = Recipe::find($id);
-        $recipe->materials()->createMany([
-           [
-               'name' => $request->name,
-               'recipe_id' => $recipe->id,
-               'amount' => $request->amount,
-               'unit' => $request->unit,
-            ],
-            
-            
-        ]);
-        
-    }
-
+   
     
     public function show($id)
     {

@@ -1,15 +1,15 @@
-@extends('layouts.logged_in')
+@extends('layouts.1column')
 
 @section('title',$title)
 
-@section('content')
+@section('main_content')
 <div class="form-group">
-<h1>コメント投稿</h1>
+<h1>質問投稿</h1>
 <form method="post" action="{{ route('comments.store') }}">
     @csrf
     <input type="hidden" name="recipe_id" value="{{ $recipe->id }}">
-    <input class="form-control" type="text" name="body">
-    <input class="button" type="submit" value="送信">
+    <textarea class="form-control" name="body"></textarea>
+    <input class="button button_comment" type="submit" value="送信">
 </form>
     
 </div>

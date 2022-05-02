@@ -2,22 +2,20 @@
 
 @section('title',$title)
 
-
-
 <div class="title_wrapper"><h1>{{ $title }}</h1></div>
 @section('main_content')
 
 <ul class="follow_users">
-    @forelse($follow_users as $follow_user)
+    @forelse($followers as $follower)
         <li class="follow_user">
-            @if($follow_user->image !== '')
-                <a href="{{ route('user.show',$follow_user) }}"><img src="{{ asset('storage/' .$follow_user->image) }}"></a>
+            @if($follower->image !== '')
+                <a href="{{ route('user.show',$follower) }}"><img src="{{ asset('storage/' .$follower->image) }}"></a>
             @else
-                <a href="{{ route('user.show',$follow_user) }}"><img src="{{ asset('images/no_image.png') }}"></a>
+                <a href="{{ route('user.show',$follower) }}"><img src="{{ asset('images/no_image.png') }}"></a>
             @endif
             <br>
-            {{ $follow_user->name }}
-            <form method="post" action="{{ route('follows.destroy',$follow_user) }}" class="follow">
+            {{ $follower->name }}
+            <form method="post" action="{{ route('follows.destroy',$follower) }}" class="follow">
                 @csrf
                 @method('delete')
                 <input type="submit" value="フォロー解除">

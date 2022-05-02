@@ -2,11 +2,10 @@
 
 @section('title',$title)
 
-    <div class="title_wrapper"><h1>{{ $title }}</h1></div>
+@section('content')
 @section('main_content')
-    
-     
-@forelse($recipes as $recipe)
+<div class="category_wrapper">{{ $category->name }}：{{ $category->recipes->count()}}件</div>
+@forelse($category->recipes as $recipe)
             <div class="recipe_flex">
                 <figure>
                     @if($recipe->image !== '')
@@ -48,14 +47,13 @@
     
     
 @empty
-<p>お気に入りのレシピがありません。</p>
+<p>レシピがありません。</p>
 
 @endforelse
-
 @endsection
 
 @section('sidebar')
- <div class="widget" style="margin-top:200px;">
+  <div class="widget" style="margin-top:200px;">
         <span class="widget_title">人気レシピ</span>        
         <ul>
             

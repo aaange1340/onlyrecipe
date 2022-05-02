@@ -1,5 +1,4 @@
 @extends('layouts.1column')
-
 @section('title',$title)
 
 

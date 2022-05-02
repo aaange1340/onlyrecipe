@@ -54,6 +54,30 @@ class FollowController extends Controller
         return view('follows.followerIndex',[
            'title' => 'フォロワー一覧', 
            'followers' => $followers,
+           'user' => $user,
+        ]);
+    }
+    
+    public function show($id)
+    {   
+        $user = User::find($id);
+        $follow_users = $user->follow_users;
+        return view('follows.show',[
+           'title' => 'フォロー一覧',
+           'user' => $user,
+           'follow_users' => $follow_users,
+        ]);
+    }
+    
+    public function followerShow($id)
+    {
+        $user = User::find($id);
+        $followers = $user->followers;
+        
+        return view('follows.followerShow',[
+           'title' => 'フォロワー一覧', 
+           'user' => $user,
+           'followers' => $followers,
         ]);
     }
 }
