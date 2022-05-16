@@ -1,10 +1,10 @@
-@extends('layouts.logged_in')
+@extends('layouts.1column')
 
 @section('title',$title)
 
-@section('content')
 
-<h1>{{ $title }}</h1>
+<div class="title_wrapper"><h1>{{ $title }}</h1></div>
+@section('main_content')
 
 <form method="POST" action="{{ route('profile.update',$user) }}" enctype="multipart/form-data">
     @csrf
@@ -38,5 +38,6 @@
     <input type="submit" value="更新">
     
 </form>
+
 
 @endsection

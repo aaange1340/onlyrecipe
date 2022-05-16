@@ -18,6 +18,10 @@ use App\User;
 
 use App\Like;
 
+use App\Comment;
+
+use App\Answer;
+
 use App\Material;
 
 class RecipeController extends Controller
@@ -32,9 +36,11 @@ class RecipeController extends Controller
     {
         $user = \Auth::user();
         $recipes = Recipe::query()->whereIn('user_id',\Auth::user()->follows()->pluck('follow_id'))->orWhere('user_id',\Auth::user()->id)->latest()->get();
+        
         foreach($recipes as $recipe){
             $data = Carbon::createFromFormat('Y-m-d H:i:s',$recipe->created_at)->format('Y年m月d日');
         }
+        
         $categories = Category::all();
         $query = Recipe::query();
         $search = $request->input('search');
@@ -42,7 +48,7 @@ class RecipeController extends Controller
             $query->where('name','like','%'.$search.'%')->where('user_id','!=',\Auth::user()->id);
             $recipes = $query->get();
         }
-        
+        $like_recipes = Recipe::withCount('likes')->orderBy('likes_count','desc')->take(3)->get();
 
         return view('recipes.index',[
            'title' => 'レシピ一覧', 
@@ -51,9 +57,15 @@ class RecipeController extends Controller
            'data' => $data,
            'categories' => $categories,
            'search' => $search,
+           'like_recipes' => $like_recipes,
         ]);
     }
-
+    
+    public function like_list()
+    {
+        $recipe_rank = Recipe::withCount('likes')->orderBy('likes_count','desc')->get();
+        return $recipe_rank;
+    }
   
   
     public function create()
@@ -113,11 +125,13 @@ class RecipeController extends Controller
     {
         $recipe = Recipe::find($id);
         $user = \Auth::user();
-
+        $answer = Answer::all();
+        
         return view('recipes.show',[
            'title' => 'レシピ詳細',
            'recipe' => $recipe,
            'user' => $user,
+           'answer' => $answer,
         ]);
     }
 

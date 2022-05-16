@@ -31,6 +31,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
           /* global $ */
+          $(document).ready(function() {
+
          $('.like_button').on('click', (event) => {
               $(event.currentTarget).next().submit();
           })
@@ -41,13 +43,20 @@
          	  jQuery('.to-top').hide();
          	}
            });
-  
-           jQuery('.to-top').click(function () {
+           
+           
+           jQuery('.to-top').on("click",function () {
+           console.log($(this))
          	jQuery('body,html').animate({
             scrollTop: 0
-         	}, 500);
+         	}, 1000);
          	return false;
            });
+           jQuery('.accordion-title').click(function() {
+        	jQuery(this).next().slideToggle();
+        	jQuery(this).toggleClass( 'close' );
+          });
+          });
 </script>
 
         @yield('footer')

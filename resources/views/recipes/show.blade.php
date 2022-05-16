@@ -23,7 +23,7 @@
     <form method="POST" action="{{ route('recipes.destroy',$recipe) }}">
         @csrf
         @method('delete')
-        <input class="button" type="submit" value=&#xf2ed; class="fas">
+        <input class="icon_button" type="submit" value=&#xf2ed; class="fas">
     </form>
     
     <ul>
@@ -35,7 +35,7 @@
             @csrf
             @method('delete')
             @if(\Auth::user()->id === $recipe->user->id)
-            <input class="button" type="submit" value=&#xf2ed; class="fas">
+            <input class="icon_button" type="submit" value=&#xf2ed; class="fas">
             @endif
         </form>
         @endif
@@ -43,6 +43,30 @@
         <li>コメントはありません</li>
         @endforelse
     </ul>
+    <div class="faqs" id="faqs">
+                    <div class="faqs-inner inner">
+                        <h2>Q&A</h2>
+                        
+                        
+                        <div class="accordion-area">
+                            
+                            @forelse($recipe->comments as $comment)
+                            <dl class="accordion-items">
+                                <dt class="accordion-title"> 
+                                    {{ $comment->body }}By{{$comment->user->name}}{{ $comment->created_at }}
+                                    <span class="accordion-icon"><a href="{{ route('answers.create',$comment->id) }}"><i style="margin-left:20px;" class="fa-solid fa-reply"></i></a></span>
+                                    
+                                </dt>
+                                <dd class="accordion-body">
+                                    <div class="accordion-text">{{ $answer }}</div>
+                                </dd>
+                            
+                            </dl>
+                            @empty<p>質問はありません</p>
+                            @endforelse
+                    </div>
+                        </div>
+    </div>                          
 </div>
 </div>
 </div>

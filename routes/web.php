@@ -11,9 +11,11 @@
 |
 */
 
+
 Auth::routes();
 //TOP
 Route::get('/','RecipeController@index')->name('top');
+
 
 Route::resource('recipes','RecipeController');
 
@@ -47,3 +49,13 @@ Route::get('/comments/{recipe}','CommentController@create')->name('comments.crea
 Route::get('/recommend','RecommendController@index')->name('recommend_user.index');
 
 Route::get('/category/{category}','CategoryController@index')->name('category.index');
+
+Route::resource('answers','AnswerController')->only([
+  'index','store','destroy' 
+]);
+Route::get('/answers/{comment}','AnswerController@create')->name('answers.create');
+
+Route::get('/answers','AnswerController@index')->name('answers.index');
+Route::post('/answers','AnswerController@store')->name('answers.store');
+
+Route::delete('answers/{answer}','AnswerController@destroy');

@@ -56,11 +56,11 @@
 
 @section('sidebar')
  <div class="widget" style="margin-top:200px;">
-        <span class="widget_title">人気レシピ</span>        
-        <ul>
-            
-            <li></li>
-            
+        <span class="widget_title">RANKING</span>        
+        <ul class="ranking">
+            @foreach($like_recipes as $like_recipe)
+            <li><a href="{{ route('recipes.show',$recipe) }}">{{ $like_recipe->name }}By{{ $like_recipe->user->name }}<span>{{ $like_recipe->likedUsers->count() }}</span></a></li>
+            @endforeach
         </ul>
     </div>
 

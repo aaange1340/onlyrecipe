@@ -30,14 +30,14 @@
                             <li>{{ $material->name }}{{ $material->amount }}{{ $material->unit }}</li>
                             @endforeach
                             </ul>
-                            <a class="like_button">{{ $recipe->isLikedBy(Auth::user()) ? 'いいね解除':'いいね' }} 
+                            <a class="like_button">{!! $recipe->isLikedBy(Auth::user()) ? '<i class="fa-solid fa-heart-circle-check"></i>':'<i class="fa-solid fa-thumbs-up"></i>' !!} 
                             </a>
                             <form method="post" action="{{ route('recipes.toggle_like',$recipe) }}" class="like">
                              @csrf
                              @method('patch')
                             </form>
             
-                            <a href="{{ route('comments.create',$recipe) }}"><i class="fa-solid fa-comment"></i></a>
+                            <a href="{{ route('comments.create',$recipe) }}"><i class="fa-brands fa-quora"></i></a>{{ $recipe->comments->count() }}
                             
                             
                 </div>
@@ -54,11 +54,11 @@
 
 @section('sidebar')
   <div class="widget" style="margin-top:200px;">
-        <span class="widget_title">人気レシピ</span>        
-        <ul>
-            
-            <li></li>
-            
+        <span class="widget_title">RANKING</span>        
+        <ul class="ranking">
+            @foreach($like_recipes as $like_recipe)
+            <li><a href="{{ route('recipes.show',$recipe) }}">{{ $like_recipe->name }}By{{ $like_recipe->user->name }}<span>{{ $like_recipe->likedUsers->count()  }}</span></a></li>
+            @endforeach
         </ul>
     </div>
 

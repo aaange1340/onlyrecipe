@@ -1,4 +1,4 @@
-@extends('layouts.2column')
+@extends('layouts.1column')
 
 @section('title',$title)
 
@@ -8,7 +8,7 @@
 <h1>{{ $title }}</h1>
 
 <dl>
-    <dt>ユーザー名:{{ $user->name }}</dt><a href="{{ route('follows.show',$user) }}">フォロー：{{ $user->follows->count() }}</a><a href="{{ route('followers.followerShow',$user) }}">フォロワー：{{ $user->followers->count() }}</a>
+    <dt>ユーザー名:{{ $user->name }}    レシピ数：{{$user->recipes->count()}}</dt><a class="mr-5" href="{{ route('follows.show',$user) }}">フォロー：{{ $user->follows->count() }}</a><a href="{{ route('followers.followerShow',$user) }}">フォロワー：{{ $user->followers->count() }}</a>
     <br>
     @if($user->follows->count() < 1 && $user->id === \Auth::user()->id)
     <a href="{{ route('recommend_user.index') }}">フォローする人を探そう</a>
@@ -47,31 +47,51 @@
 
 
 @section('main_content')
-
-<div class="recipe_wrapper flex">
 @forelse($recipes as $recipe)
-    <a href="{{ route('recipes.show',$recipe) }}" class="recipe_card">
-        <div class="recipe_title">
-            <div class="recipe_content">
-                {{ $recipe->name }}
-                {{ $data }} 
-                <div class="recipe_img">
+        <div class="recipe_container">
+            
+            <div class="recipe_flex">
+                <figure class="recipe_image">
                     @if($recipe->image !== '')
                      <a href="{{ route('recipes.show',$recipe) }}" class="image" style='background-image:url({{ \Storage::url($recipe->image) }})'>
-                         
+                     <p>詳細</p>
                      </a>
                     @else 
+                     <a href="{{ route('recipes.show',$recipe) }}">
                      <div class="image" style='background-image:url({{ asset('images/no_image.png') }})'></div>
+                     <p>詳細</p>
+                     </a>
                      
                     @endif
+                </figure>
+                
+                <div class="article_info">
+                    <div class="recipe_title">
+                            {{ $recipe->name }}By<a href="{{ route('user.show',$recipe->user->id) }}">{{ $recipe->user->name }}</a>
+                    </div>
+                        <span class="article_category">{{ $recipe->category->name }}</span>
+                            <time class="article_date">{{ $data }}</time>
+                            <ul class="material_list">
+                            @foreach($recipe->materials as $material)
+                            <li>{{ $material->name }}{{ $material->amount }}{{ $material->unit }}</li>
+                            @endforeach
+                            </ul>
+                            <a class="like_button">{!! $recipe->isLikedBy(Auth::user()) ? '<i class="fa-solid fa-heart-circle-check"></i>':'<i class="fa-solid fa-thumbs-up"></i>' !!} 
+                            </a>
+                            <form method="post" action="{{ route('recipes.toggle_like',$recipe) }}" class="like">
+                             @csrf
+                             @method('patch')
+                            </form>
+            
+                            <a href="{{ route('comments.create',$recipe) }}"><i class="fa-solid fa-comment"></i></a>
+                            
+                            
                 </div>
                 
             </div>
-            
+    
         </div>
-    </a>
-    
-    
+
 @empty
 <p>レシピがありません。</p>
 <a>レシピを投稿してみよう</a>
@@ -81,19 +101,4 @@
 @endsection
 
 
-
-@section('sidebar')
- 
-    
-    
-    <div class="widget">
-        <span class="widget_title">人気レシピ</span>        
-        <ul>
-            
-            <li></li>
-            
-        </ul>
-    </div>
-
-@endsection
 

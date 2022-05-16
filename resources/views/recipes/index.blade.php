@@ -13,11 +13,6 @@
 
 <div class="title_wrapper">
 <h1>{{ $title }}</h1>
-<div>
-<a href="{{ route('recipes.create') }}"><i class="fa-solid fa-feather-pointed fa-3x"></i>レシピ追加</a>
-    
-</div>
-    
 </div>
 
 
@@ -27,13 +22,15 @@
         <div class="recipe_container">
             
             <div class="recipe_flex">
-                <figure>
+                <figure class="recipe_image">
                     @if($recipe->image !== '')
                      <a href="{{ route('recipes.show',$recipe) }}" class="image" style='background-image:url({{ \Storage::url($recipe->image) }})'>
+                     <p>詳細</p>
                      </a>
                     @else 
                      <a href="{{ route('recipes.show',$recipe) }}">
                      <div class="image" style='background-image:url({{ asset('images/no_image.png') }})'></div>
+                     <p>詳細</p>
                      </a>
                      
                     @endif
@@ -50,14 +47,17 @@
                             <li>{{ $material->name }}{{ $material->amount }}{{ $material->unit }}</li>
                             @endforeach
                             </ul>
-                            <a class="like_button">{!! $recipe->isLikedBy(Auth::user()) ? '<i class="fa-brands fa-gratipay"></i>':'<i class="fa-solid fa-thumbs-up"></i>' !!} 
+                            <a class="like_button">{!! $recipe->isLikedBy(Auth::user()) ? '<i class="fa-solid fa-heart-circle-check"></i>':'<i class="fa-solid fa-thumbs-up"></i>' !!} 
                             </a>
+                            @if($recipe->likes->count() !== 0)
+                            <span>{{ $recipe->likes->count() }}</span>
+                            @endif
                             <form method="post" action="{{ route('recipes.toggle_like',$recipe) }}" class="like">
                              @csrf
                              @method('patch')
                             </form>
             
-                            <a href="{{ route('comments.create',$recipe) }}"><i class="fa-solid fa-comment"></i></a>
+                            <a href="{{ route('comments.create',$recipe) }}"><i class="fa-brands fa-quora"></i></a>{{ $recipe->comments->count() }}
                             
                             
                 </div>
@@ -75,12 +75,14 @@
 
 
 @section('sidebar')
-
+    <div class="recipe_create">
+    <a href="{{ route('recipes.create') }}"><i class="fa-solid fa-feather-pointed fa-3x"></i>レシピ追加</a>
+    </div>
 
     <div class="search">
         <form class="form-group" method="GET">
             @csrf
-            <input class="form-control" type="search" placeholder="キーワード" name="search" value="@if(isset($search)) {{ $search }} @endif">
+            <input class="form-control" type="search" placeholder="キーワード" name="search" value="@if(isset($search)) {{ $search }} @endif" style="margin-bottom:20px;">
             <input class="button" type="submit" value="検索">
         </form>
     </div>
@@ -96,10 +98,10 @@
     
     <div class="widget">
         <span class="widget_title">RANKING</span>        
-        <ul>
-            
-            <li></li>
-            
+        <ul class="ranking">
+            @foreach($like_recipes as $like_recipe)
+            <li><a href="{{ route('recipes.show',$recipe) }}">{{ $like_recipe->name }}By{{ $like_recipe->user->name }}<span>{{ $like_recipe->likedUsers->count() }}</span></a></li>
+            @endforeach
         </ul>
     </div>
 </aside>
@@ -151,7 +153,7 @@
 
 
     <div class="page-top">
-        <a href="#top" class="to-top"><img src="../images/totop.png" alt="ページのトップへ移動"></a>
+        <a href="#" class="to-top"><img src="../images/totop.png" alt="ページのトップへ移動"></a>
     </div>
 </div>
 

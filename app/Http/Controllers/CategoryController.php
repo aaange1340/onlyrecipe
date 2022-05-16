@@ -27,6 +27,7 @@ class CategoryController extends Controller
         foreach($recipes as $recipe){
             $data = Carbon::createFromFormat('Y-m-d H:i:s',$recipe->created_at)->format('Y年m月d日');
         }
+        $like_recipes = Recipe::withCount('likes')->orderBy('likes_count','desc')->take(3)->get();
         
         return view('category.index',[
            'title' => $category->name,
@@ -34,6 +35,7 @@ class CategoryController extends Controller
            'user' => $user,
            'data' => $data,
            'recipes' =>$recipes,
+           'like_recipes' => $like_recipes,
         ]);
     }
 }
