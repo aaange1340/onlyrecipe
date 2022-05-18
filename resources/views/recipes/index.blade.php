@@ -41,7 +41,7 @@
                             {{ $recipe->name }}By<a href="{{ route('user.show',$recipe->user->id) }}">{{ $recipe->user->name }}</a>
                     </div>
                         <span class="article_category">{{ $recipe->category->name }}</span>
-                            <time class="article_date">{{ $data }}</time>
+                            <time class="article_date">{{ $recipe->created_at->format('Y年m月d日') }}</time>
                             <ul class="material_list">
                             @foreach($recipe->materials as $material)
                             <li>{{ $material->name }}{{ $material->amount }}{{ $material->unit }}</li>
@@ -100,7 +100,7 @@
         <span class="widget_title">RANKING</span>        
         <ul class="ranking">
             @foreach($like_recipes as $like_recipe)
-            <li><a href="{{ route('recipes.show',$recipe) }}">{{ $like_recipe->name }}By{{ $like_recipe->user->name }}<span>{{ $like_recipe->likedUsers->count() }}</span></a></li>
+            <li><a href="{{ route('recipes.show',$like_recipe) }}">{{ $like_recipe->name }}By{{ $like_recipe->user->name }}<span>{{ $like_recipe->likedUsers->count() }}</span></a></li>
             @endforeach
         </ul>
     </div>

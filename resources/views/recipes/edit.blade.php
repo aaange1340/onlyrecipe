@@ -1,17 +1,19 @@
-@extends('layouts.logged_in')
+@extends('layouts.1column')
 
 @section('title',$title)
 
-@section('content')
+@section('main_content')
 
+<div class="title_wrapper">
 <h1>{{ $title }}</h1>
+</div>
 
 <form method="POST" action="{{ route('recipes.update',$recipe) }}" enctype="multipart/form-data">
     @csrf
     @method('PATCH')
 <div class="form-group">
     <label>
-        レシピ名：
+        レシピ名
         <br>
         <input class="form-control" type="name" name="name" value="{{ old('name',$recipe->name) }}">
     </label>
@@ -19,7 +21,7 @@
 
 <div class="form-group">
     <label>
-        材料：
+        材料
         <br>
         
     </label>
@@ -27,7 +29,7 @@
 
 <div class="form-group">
 <label>
-    カテゴリー：
+    カテゴリー
     <br>
     <select name="category_id" class="form-control">
         @foreach($categories as $category)
@@ -39,7 +41,7 @@
 
 <div class="form-group">
 <label>
-    画像：
+ 
     @if($recipe->image !== '')
     <div class="image" style="background-image:url({{ \Storage::url($recipe->image) }})"></div>
     @else

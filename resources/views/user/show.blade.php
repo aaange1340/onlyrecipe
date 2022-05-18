@@ -11,7 +11,7 @@
     <dt>ユーザー名:{{ $user->name }}    レシピ数：{{$user->recipes->count()}}</dt><a class="mr-5" href="{{ route('follows.show',$user) }}">フォロー：{{ $user->follows->count() }}</a><a href="{{ route('followers.followerShow',$user) }}">フォロワー：{{ $user->followers->count() }}</a>
     <br>
     @if($user->follows->count() < 1 && $user->id === \Auth::user()->id)
-    <a href="{{ route('recommend_user.index') }}">フォローする人を探そう</a>
+    <a href="{{ route('recommend_user.index') }}">フォローする人を探そう!!</a>
     @endif
     <dd><div class="profile_image">
     @if($user->image !== '')
@@ -70,7 +70,7 @@
                             {{ $recipe->name }}By<a href="{{ route('user.show',$recipe->user->id) }}">{{ $recipe->user->name }}</a>
                     </div>
                         <span class="article_category">{{ $recipe->category->name }}</span>
-                            <time class="article_date">{{ $data }}</time>
+                            <time class="article_date">{{ $recipe->created_at->format('Y年m月d日') }}</time>
                             <ul class="material_list">
                             @foreach($recipe->materials as $material)
                             <li>{{ $material->name }}{{ $material->amount }}{{ $material->unit }}</li>
@@ -94,7 +94,10 @@
 
 @empty
 <p>レシピがありません。</p>
-<a>レシピを投稿してみよう</a>
+<div class="recipe_create">
+    <a href="{{ route('recipes.create') }}"><i class="fa-solid fa-feather-pointed fa-3x"></i>レシピを投稿してみよう！</a>
+    </div>
+
 @endforelse
 {{ $recipes->links() }}
 </div>

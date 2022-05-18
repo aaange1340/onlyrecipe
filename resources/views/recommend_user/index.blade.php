@@ -9,7 +9,7 @@
 
 <dl>
     @forelse($recommended_users as $recommend_user)
-    <dt>ユーザー名:{{ $recommend_user->name }}
+    <dt><a href="{{ route('user.show',$recommend_user) }}">ユーザー名:{{ $recommend_user->name }}</a>
      @if($recommend_user->id != \Auth::user()->id)
     @if(Auth::user()->isFollowing($recommend_user))
      <form method="post" action="{{ route('follows.destroy',$user) }}" class="follow">
@@ -56,10 +56,10 @@
 @section('sidebar')
 <div class="widget" style="margin-top:200px;">
         <span class="widget_title">人気レシピ</span>        
-        <ul>
-            
-            <li></li>
-            
+        <ul class="ranking">
+            @foreach($like_recipes as $like_recipe)
+            <li><a href="{{ route('recipes.show',$like_recipe) }}">{{ $like_recipe->name }}By{{ $like_recipe->user->name }}<span>{{ $like_recipe->likedUsers->count() }}</span></a></li>
+            @endforeach
         </ul>
     </div>
 

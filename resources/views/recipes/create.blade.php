@@ -40,7 +40,7 @@
     <div class="form-group">
         <label>
             作り方
-            <textarea></textarea>
+            <textarea class="form-control process" name="process"></textarea>
         </label>
     </div>
     

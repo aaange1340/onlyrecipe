@@ -41,13 +41,13 @@
 <div class="container">
     <div class="row">
         
-<div class=" recipe_wrapper col-9">
+<div class=" recipe_wrapper col-12 col-md-9">
     <article class="article">
        @yield('main_content') 
         
     </article>
 </div>
-<aside class="aside col-3">
+<aside class="aside col-12 col-md-3">
         
         @yield('sidebar')
         

@@ -34,4 +34,12 @@ class RecipeRequest extends FormRequest
             'category_id' => ['required','exists:categories,id'],
         ];
     }
+    
+    public function attributes()
+    {
+        return[
+            'name' => 'レシピ名',  
+            
+        ];
+    }
 }

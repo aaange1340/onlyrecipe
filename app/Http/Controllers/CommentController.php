@@ -36,7 +36,9 @@ class CommentController extends Controller
            'user_id' => \Auth::user()->id,
            'body' => $request->body,
         ]);
-        return redirect()->route('recipes.index');
+        // return redirect()->route('recipes.index');
+        return redirect()->route('recipes.show', ['id' => $recipe->id ]);
+        // https://qiita.com/manbolila/items/767e1dae399de16813fb
     }
     
     public function destroy($id)

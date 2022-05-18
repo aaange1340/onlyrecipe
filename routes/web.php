@@ -58,4 +58,6 @@ Route::get('/answers/{comment}','AnswerController@create')->name('answers.create
 Route::get('/answers','AnswerController@index')->name('answers.index');
 Route::post('/answers','AnswerController@store')->name('answers.store');
 
+
+
 Route::delete('answers/{answer}','AnswerController@destroy');

@@ -20,30 +20,15 @@
 @endif
 <div>
 <a href="{{ route('recipes.edit',$recipe) }}">編集</a>
+@if($user->id === $recipe->user->id)
     <form method="POST" action="{{ route('recipes.destroy',$recipe) }}">
         @csrf
         @method('delete')
         <input class="icon_button" type="submit" value=&#xf2ed; class="fas">
     </form>
-    
-    <ul>
-        @forelse($recipe->comments as $comment)
-        <li>コメント</li>
-        <li>{{ $comment->user->name }}{{ $comment->created_at }}:{{ $comment->body }}</li>
-        @if($comment->user->id === $user->id)
-        <form method="POST" action="{{ route('comments.destroy',$comment) }}">
-            @csrf
-            @method('delete')
-            @if(\Auth::user()->id === $recipe->user->id)
-            <input class="icon_button" type="submit" value=&#xf2ed; class="fas">
-            @endif
-        </form>
-        @endif
-        @empty
-        <li>コメントはありません</li>
-        @endforelse
-    </ul>
-    <div class="faqs" id="faqs">
+@endif
+   
+    <div class="faqs">
                     <div class="faqs-inner inner">
                         <h2>Q&A</h2>
                         
@@ -55,10 +40,22 @@
                                 <dt class="accordion-title"> 
                                     {{ $comment->body }}By{{$comment->user->name}}{{ $comment->created_at }}
                                     <span class="accordion-icon"><a href="{{ route('answers.create',$comment->id) }}"><i style="margin-left:20px;" class="fa-solid fa-reply"></i></a></span>
-                                    
+                                     @if($comment->user->id === $user->id)
+                                        <form method="POST" action="{{ route('comments.destroy',$comment) }}">
+                                            @csrf
+                                            @method('delete')
+                                            @if(\Auth::user()->id === $recipe->user->id)
+                                            <input class="icon_button" type="submit" value=&#xf2ed; class="fas">
+                                            @endif
+                                        </form>
+                                     @endif
                                 </dt>
                                 <dd class="accordion-body">
-                                    <div class="accordion-text">{{ $answer }}</div>
+                                    @forelse($answers as $answer)
+                                    <div class="accordion-text">{{ $answer->body }}</div>
+                                    @empty
+                                    <p>回答はありません。</p>
+                                    @endforelse
                                 </dd>
                             
                             </dl>
