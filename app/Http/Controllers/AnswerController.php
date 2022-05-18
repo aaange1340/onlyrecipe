@@ -30,7 +30,7 @@ class AnswerController extends Controller
     {
         $user = \Auth::user();
         $comment = Comment::find($id);
-        
+
         return view('answers.create',[
            'title' => '回答',
            'user' => $user,
@@ -45,7 +45,8 @@ class AnswerController extends Controller
            'user_id' => \Auth::user()->id,
            'body' => $request->body,
         ]);
-        return redirect()->route('recipes.show',$recipe);
+        // return redirect()->route('recipes.show', ['id' => ]);
+        return redirect()->route('answers.index');
     }    
     
     public function destroy($id)

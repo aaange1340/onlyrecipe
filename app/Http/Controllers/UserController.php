@@ -64,14 +64,11 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $recipes = Recipe::all();
-        foreach($recipes as $recipe){
-        $data = Carbon::createFromFormat('Y-m-d H:i:s',$recipe->created_at)->format('Y年m月d日');
-        }
+        
         return view('user.show',[
            'title' => 'プロフィール',
            'user' => $user,
            'recipes' => $user->recipes()->latest()->paginate(3),
-           'data' => $data,
         ]);
         
     }

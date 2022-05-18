@@ -24,15 +24,13 @@ class RecommendController extends Controller
         $user = \Auth::user();
         $recommended_users = User::recommend($user->id)->get();
         $recipes = Recipe::all();
-         foreach($recipes as $recipe){
-            $data = Carbon::createFromFormat('Y-m-d H:i:s',$recipe->created_at)->format('Y年m月d日');
-        }
+        $like_recipes = Recipe::withCount('likes')->orderBy('likes_count','desc')->take(3)->get();
         return view('recommend_user.index',[
             'title' => 'おすすめユーザー',
             'recommended_users' => $recommended_users,
             'recipes' => $recipes,
             'user' => $user,
-            'data' => $data,
+            'like_recipes' => $like_recipes,
          ]);
     }
 }

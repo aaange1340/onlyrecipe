@@ -37,10 +37,6 @@ class RecipeController extends Controller
         $user = \Auth::user();
         $recipes = Recipe::query()->whereIn('user_id',\Auth::user()->follows()->pluck('follow_id'))->orWhere('user_id',\Auth::user()->id)->latest()->get();
         
-        foreach($recipes as $recipe){
-            $data = Carbon::createFromFormat('Y-m-d H:i:s',$recipe->created_at)->format('Y年m月d日');
-        }
-        
         $categories = Category::all();
         $query = Recipe::query();
         $search = $request->input('search');
@@ -54,7 +50,6 @@ class RecipeController extends Controller
            'title' => 'レシピ一覧', 
            'user' => $user,
            'recipes' => $recipes,
-           'data' => $data,
            'categories' => $categories,
            'search' => $search,
            'like_recipes' => $like_recipes,
@@ -125,13 +120,13 @@ class RecipeController extends Controller
     {
         $recipe = Recipe::find($id);
         $user = \Auth::user();
-        $answer = Answer::all();
+        $answers = Answer::all();
         
         return view('recipes.show',[
            'title' => 'レシピ詳細',
            'recipe' => $recipe,
            'user' => $user,
-           'answer' => $answer,
+           'answers' => $answers,
         ]);
     }
 

@@ -36,7 +36,8 @@ class UserRequest extends FormRequest
     public function attributes()
     {
         return [
-            'name' => 'ユーザー名かメールアドレス',  
+            'name' => 'ユーザー名',
+            'profile' => 'プロフィール',
         ];
     }
 }
