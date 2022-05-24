@@ -120,13 +120,18 @@ class RecipeController extends Controller
     {
         $recipe = Recipe::find($id);
         $user = \Auth::user();
-        $answers = Answer::all();
+        
+        // $answers = Comment::with('answer')->get();
+        // dd($answers);
+        // $answers = Answer::with('comment')->where('comment_id','=','comment.id')->get();
+        // $answers = Comment::select('body')->with('answer')->get();
+        // $answers = Answer::with('comment')->where('id','=','comment_id')->get();
+        //  dd($comment);
         
         return view('recipes.show',[
            'title' => 'レシピ詳細',
            'recipe' => $recipe,
            'user' => $user,
-           'answers' => $answers,
         ]);
     }
 

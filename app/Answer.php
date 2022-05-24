@@ -12,6 +12,11 @@ class Answer extends Model
     
     public function comment()
     {
-      return $this->belongsTo('App\Comment');
+      return $this->hasOne('App\Comment');
+    }
+    
+    public function user()
+    {
+      return $this->belongsTo('App\User');
     }
 }
