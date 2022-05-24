@@ -580,11 +580,28 @@ color: #9ab;
 }
 .accordion-body {
   background: rgba(59, 105, 255, 0.2);
-  padding: 10px;
+  padding: 10px 40px;
   border-radius: 4px;
   margin-top: 18px;
   display: none;
   font-weight: bold;
+  position: relative;
+}
+.accordion-body:before{
+  position: absolute;
+  content: "A";
+  background: #fff;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  font-size: 16px;
+  font-family: 'Montserrat', sans-serif;
+  border-radius: 50%;
+  color: #3B69FF;
+  left: 10px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
 }
 
 
@@ -599,8 +616,16 @@ color: #9ab;
 /*responsive*/
 @media screen and (max-width: 767px){
   
+  .title_wrapper{
+    text-align: center;
+  }
+  
   .recipe_flex{
     display:block;
+  }
+  
+  .column_wrapper{
+    width: 100%;
   }
   
   .footer-wrapper {
@@ -631,7 +656,7 @@ color: #9ab;
   
   .page-top {
     right: 10px;
-    bottom: 10px;
+    bottom: 100px;
     width: 50px;
     height: 50px;
   }
@@ -676,4 +701,7 @@ color: #9ab;
   .image{
     width: 100%;
   }
+  .accordion-body{
+  padding-left: 40px;
+}
 }

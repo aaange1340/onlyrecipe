@@ -51,19 +51,19 @@
                                      @endif
                                 </dt>
                                 <dd class="accordion-body">
-                                    @forelse($answers as $answer)
-                                    <div class="accordion-text">{{ $answer->body }}</div>
+                                    @forelse($comment->answer as $answer)
+                                   <div class="accordion-text">{{ $answer->body}}By{{ $answer->user->name }}:{{ $answer->created_at}}</div>
+                                    <!--<div class="accordion-text"></div>-->
                                     @empty
                                     <p>回答はありません。</p>
                                     @endforelse
                                 </dd>
-                            
                             </dl>
                             @empty<p>質問はありません</p>
                             @endforelse
                     </div>
                         </div>
-    </div>                          
+    </div>                         
 </div>
 </div>
 </div>

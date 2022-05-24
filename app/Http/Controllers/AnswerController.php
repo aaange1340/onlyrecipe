@@ -30,7 +30,6 @@ class AnswerController extends Controller
     {
         $user = \Auth::user();
         $comment = Comment::find($id);
-
         return view('answers.create',[
            'title' => '回答',
            'user' => $user,
