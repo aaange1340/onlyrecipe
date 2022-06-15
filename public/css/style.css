@@ -288,8 +288,16 @@ textarea{
   appearance: none;
   resize: none;
 }
-.process{
-  width: 300px;
+.recipe_flex{
+  display: flex;
+}
+.recipe_process{
+  background-color: #f8f9fa;
+  padding: 30px;
+  margin-left: 100px;
+  width: 100%;
+  border-radius: 10px;
+  border:1px solid #553501;
 }
 .button{
     text-align: center;
@@ -341,6 +349,7 @@ dt{
 }
 .materials{
   display:flex;
+  margin-bottom: 20px;
 }
 .materials input {
   margin-right:20px;
@@ -490,6 +499,8 @@ color: #9ab;
     border-radius: 5px;
     padding: 3px;
     margin: 0;
+    margin-left: 20px;
+    margin-top: 3px;
 }
 .recipe_create{
   margin-bottom: 30px;

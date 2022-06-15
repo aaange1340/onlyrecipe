@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnsToComments extends Migration
+class AddColumnsToRecipes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddColumnsToComments extends Migration
      */
     public function up()
     {
-        Schema::table('comments', function (Blueprint $table) {
-            $table->unsignedBigInteger('answer_id');
-            $table->foreign('answer_id')->references('id')->on('answers')->onDelete('cascade');
+        Schema::table('recipes', function (Blueprint $table) {
+            $table->string('process');
         });
     }
 
@@ -26,8 +25,8 @@ class AddColumnsToComments extends Migration
      */
     public function down()
     {
-        Schema::table('comments', function (Blueprint $table) {
-            $table->dropColumn('answer_id');
+        Schema::table('recipes', function (Blueprint $table) {
+            $table->dropColumn('process');
         });
     }
 }

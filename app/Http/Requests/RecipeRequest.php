@@ -32,6 +32,7 @@ class RecipeRequest extends FormRequest
               'dimensions:min_width=50,min_height=50,max_width=1000,max_height=1000',
             ],
             'category_id' => ['required','exists:categories,id'],
+            'process' => ['required','max:300'],
         ];
     }
     

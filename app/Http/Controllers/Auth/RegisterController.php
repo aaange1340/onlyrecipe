@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+use App\Nationality;
+
 class RegisterController extends Controller
 {
     /*
@@ -53,6 +55,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string','max:255','unique:users'],
             'email' => ['required', 'string', 'email:filter', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'regex:/\A([a-zA-Z0-9]{8,})+\z/u', 'confirmed'],
+            'national_id' => ['required'],
         ]);
     }
     
@@ -66,10 +69,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $nationalities = Nationality::all();
+        
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'national_id' => $data['national_id'],
+            // 'nationalities' => $nationalities,
         ]);
+        
+        
     }
 }

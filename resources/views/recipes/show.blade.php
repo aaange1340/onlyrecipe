@@ -6,11 +6,12 @@
 
 <div class="title_wrapper"><h1>{{ $title }}</h1></div>
 
-<ul class="flex">
+<div class="flex">
 <div class="container">
 
 <h2>{{ $recipe->name }}</h2>
-<div>
+<div class="recipe_flex">
+<div class="recipe_image">
     {{ $recipe->category->name }}
 @if($recipe->image !== '' )
     <a href="{{ route('recipes.show',$recipe) }}" class="image" style="background-image:url({{ \Storage::url($recipe->image) }})">
@@ -18,7 +19,14 @@
 @else
     <div class="image" style="background-image:url({{ asset('images/no_image.png') }})"></div>
 @endif
-<div>
+</div>
+    
+<div class="recipe_
+process">
+    {{ $recipe->process }}
+</div>
+    
+</div>
 <a href="{{ route('recipes.edit',$recipe) }}">編集</a>
 @if($user->id === $recipe->user->id)
     <form method="POST" action="{{ route('recipes.destroy',$recipe) }}">
