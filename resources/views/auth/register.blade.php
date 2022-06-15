@@ -19,6 +19,19 @@
         
         <div class="form-group">
             <label class="required">
+                国籍
+                <select class="form-control" name="national_id">
+                    <option disabled style='display:none;' @if(empty($user->national_id)) selected @endif>選択してください 
+                    </option>
+                @foreach(config('country') as $key => $value)
+                    <option value="{{ $key }}">{{ $value }}</option>
+                @endforeach
+                </select>
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label class="required">
                 メールアドレス
                 <input class="form-control" type="email" name="email">
             </label>

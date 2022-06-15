@@ -14,4 +14,9 @@ class Material extends Model
     {
         return $this->belongsTo('App/Recipe');
     }
+    
+    public function unit()
+    {
+        return $this->hasOne('App/Unit');
+    }
 }

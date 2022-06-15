@@ -14,8 +14,9 @@ class AddColumnsToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('profile')->default('');
-            $table->string('image')->default('');
+        $table->unsignedBigInteger('national_id');
+        
+        $table->foreign('id')->references('id')->on('nationalities')->onDelete('cascade');
         });
     }
 
@@ -27,9 +28,7 @@ class AddColumnsToUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('profile');
-            $table->dropColumn('image');
-           
+            $table->dropColumn('national_id');
         });
     }
 }

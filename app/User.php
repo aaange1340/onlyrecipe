@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','profile','image',
+        'name', 'email', 'password','profile','image','country','national_id',
     ];
 
     /**
@@ -89,4 +89,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Answer');
     }
+    
+    public function national()
+    {
+        return $this->balongsTo('App\Nationality');
+    }
+    
 }

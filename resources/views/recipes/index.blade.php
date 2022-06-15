@@ -38,7 +38,7 @@
                 
                 <div class="article_info">
                     <div class="recipe_title">
-                            {{ $recipe->name }}By<a href="{{ route('user.show',$recipe->user->id) }}">{{ $recipe->user->name }}</a>
+                            {{ $recipe->name }}By<a href="{{ route('user.show',$recipe->user->id) }}">{{ $recipe->user->name }}:{{ $recipe->user->country }}</a>
                     </div>
                         <span class="article_category">{{ $recipe->category->name }}</span>
                             <time class="article_date">{{ $recipe->created_at->format('Y年m月d日') }}</time>
@@ -86,7 +86,14 @@
             <input class="button" type="submit" value="検索">
         </form>
     </div>
-    
+    <form class="form-group" method="GET">
+        @csrf
+    <select type="text" class="form-control" name="national_id"  onChange="location.href=value;">
+    @foreach(config('country') as $key => $value )
+        <option value="{{ route('recipes.country',['country_key' => $key]) }}">{{ $value }}</option>
+    @endforeach
+    </select>
+    </form>
     <div class="widget">
         <span class="widget_title">CATEGORY</span>
         <ul>
