@@ -20,19 +20,16 @@
         <label>材料
             <input class="form-control" type="hidden" name="recipe_id" value="">
             <div class="materials">
-            <input type="button" value="+" class="add pluralBtn">
-            <input type="button" value="－" class="del pluralBtn">
-            <input class="form-control" type="name" name="material_name" placeholder="材料名">
-            <input class="form-control" type="text" name="amount" placeholder="分量">
-            <select class="form-control" name="unit">
-            
-                 <option value="">小さじ</option>
-                 <option value="">大さじ</option>
-                 <option value="">g</option>
-                 <option value="">cc</option>
-                 <option value="">カップ</option>
+            <input class="form-control" type="name" name="materials[][material_name]" placeholder="材料名">
+            <input class="form-control" type="text" name="materials[][amount]" placeholder="分量">
+            <select class="form-control" name="materials[][unit]">
+                @foreach($units as $unit)
+                 <option value="{{ $unit->name }}">{{ $unit->name }}</option>
+                @endforeach
             </select>    
-                
+            <input type="button" value="＋" class="add pluralBtn">
+            <input type="button" value="－" class="del pluralBtn">
+           
             </div>
         </label>
     </div>
@@ -40,7 +37,7 @@
     <div class="form-group">
         <label>
             作り方
-            <textarea class="form-control process" name="process"></textarea>
+            <textarea class="form-control process" name="process" cols="100" rows="10"></textarea>
         </label>
     </div>
     
@@ -75,10 +72,11 @@ $(document).on("click", ".add", function() {
     $(this).parent().clone(true).insertAfter($(this).parent());
 });
 $(document).on("click", ".del", function() {
-    var target = $(this).parent();
+   var target = $(this).parent();
     if (target.parent().children().length > 1) {
         target.remove();
     }
+    
 });
 </script>
 @endsection

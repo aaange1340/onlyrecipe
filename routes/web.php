@@ -16,8 +16,10 @@ Auth::routes();
 //TOP
 Route::get('/','RecipeController@index')->name('top');
 
+// Route::post('/recipes/{country_key}','RecipeController@country');
 
 Route::resource('recipes','RecipeController');
+Route::get('/recipes/{country_key}/country','RecipeController@country')->name('recipes.country');
 
 Route::resource('likes','LikeController')->only([
     'index','store','destroy'    
@@ -61,3 +63,4 @@ Route::post('/answers','AnswerController@store')->name('answers.store');
 
 
 Route::delete('answers/{answer}','AnswerController@destroy');
+

@@ -24,6 +24,10 @@ use App\Answer;
 
 use App\Material;
 
+use App\Unit;
+
+use App\Nationality;
+
 class RecipeController extends Controller
 {
     public function __construct()
@@ -45,7 +49,9 @@ class RecipeController extends Controller
             $recipes = $query->get();
         }
         $like_recipes = Recipe::withCount('likes')->orderBy('likes_count','desc')->take(3)->get();
-
+        foreach(config('country') as $key => $value )
+        
+        
         return view('recipes.index',[
            'title' => 'レシピ一覧', 
            'user' => $user,
@@ -53,6 +59,7 @@ class RecipeController extends Controller
            'categories' => $categories,
            'search' => $search,
            'like_recipes' => $like_recipes,
+           'key' => $key,
         ]);
     }
     
@@ -67,11 +74,13 @@ class RecipeController extends Controller
     {   
         $user = \Auth::user();
         $categories = Category::all();
+        $units = Unit::all();
         
         return view('recipes.create',[
            'title' => 'レシピ投稿', 
            'categories' => $categories,
            'user' => $user,
+           'units' => $units,
         ]);
     }
 
@@ -97,13 +106,14 @@ class RecipeController extends Controller
                 'name' => $request->name,
                 'category_id' => $request->category_id,
                 'image' => $path,
+                'process' => $request->process,
             ]);
          $recipe->materials()->createMany([
            [
-               'name' => $request->material_name,
-               'recipe_id' => $recipe->id,
-               'amount' => $request->amount,
-               'unit' => $request->unit,
+              'name' => $request->input('materials.0.material_name'),
+              'recipe_id' => $recipe->id,
+              'amount' => $request->input('materials.0.amount'),
+              'unit' => $request->input('materials.0.unit'),
             ],
             
             
@@ -195,6 +205,22 @@ class RecipeController extends Controller
             ]);
         }
         return back();
+    }
+    
+    public function country(Request $request,$key)
+    {
+        // foreach(config('country') as $key => $value)
+        $key = $request->route('country_key');
+        // $recipes = Recipe::join('users','users.id','=','recipes.user_id')->where('users.national_id','=',$key)->groupBy('id')->get();
+        // $users = User::where('national_id','=',$key)->pluck('id')->get();
+        $users= User::where('users.national_id','=',$key)->get();
+        $user = \Auth::user();
+        return view('recipes.country',[
+            'title' => '各国のレシピ', 
+            'key' => $key,
+            'users' => $users,
+            'user' => $user,
+        ]);
     }
     
 }
